@@ -2,12 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/Raulez3104/Backend_FindU.git'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm install'
