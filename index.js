@@ -266,3 +266,5 @@ app.listen(PORT, () => {
   console.log(`Carpeta de uploads: ${uploadsDir}`);
   console.log(`Acceso a imágenes: http://localhost:${PORT}/uploads/`);
 });
+
+module.exports = app;
