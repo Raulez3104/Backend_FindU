@@ -20,7 +20,7 @@ pipeline {
             echo "Tests ejecutados correctamente."
         }
         failure {
-            echo "❌ Los tests fallaron."
+            echo "Los tests fallaron."
         }
     }
 }
