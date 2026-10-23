@@ -1,28 +1,33 @@
 const request = require('supertest');
-const { app, db } = require('../index');
+const app = require('../app');
+const pool = require('../config/database');
 
-describe('API /reports', () => {
+// Cierra el pool de pg para que Jest salga limpio (sin handles abiertos).
+afterAll(async () => {
+  await pool.end();
+});
 
-  test('GET /reports - debería retornar todos los reportes', async () => {
-    const res = await request(app).get('/reports');
-    expect(res.statusCode).toBe(200);
-    expect(Array.isArray(res.body)).toBe(true);
+describe('API /reportes', () => {
+
+  test('POST /reportes - retorna 401 sin JWT antes de validar campos', async () => {
+    const res = await request(app)
+      .post('/reportes')
+      .send({ titulo: 'Carnet UCB' });
+    expect(res.statusCode).toBe(401);
+    expect(res.body.message).toBe('Autenticación requerida');
   });
 
-  test('POST /reports - debería fallar si faltan campos', async () => {
-    const res = await request(app)
-      .post('/reports')
-      .send({ title: 'Test' }); 
-    expect(res.statusCode).toBe(400);
-    expect(res.body.message).toBe('Todos los campos son obligatorios');
+  test('POST /reportes - retorna 401 sin JWT con body vacío', async () => {
+    const res = await request(app).post('/reportes').send({});
+    expect(res.statusCode).toBe(401);
+    expect(res.body.message).toBe('Autenticación requerida');
   });
 
 });
 
-afterAll(done => {
-  db.end(err => {
-    if (err) console.error('Error cerrando MySQL:', err);
-    else console.log('Conexión MySQL cerrada correctamente');
-    done();
+describe('Rutas inexistente', () => {
+  test('GET /reports (inglés) - no existe, devuelve 404', async () => {
+    const res = await request(app).get('/reports');
+    expect(res.statusCode).toBe(404);
   });
 });

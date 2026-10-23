@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "jest --runInBand"
   },
   "keywords": [],
@@ -15,8 +17,10 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "google-auth-library": "^11.3.1",
+    "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
-    "mysql2": "^3.15.2"
+    "pg": "^8.23.0"
   },
   "devDependencies": {
     "jest": "^30.2.0",
